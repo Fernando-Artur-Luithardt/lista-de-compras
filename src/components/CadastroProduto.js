@@ -9,6 +9,10 @@ export default function Tarefas(props) {
   let [lastId, setLastId] = useState(0)
   let [valorTotal, setValorTotal] = useState(0)
 
+  //limpar input após adicionar o produto
+  //Como adicionar botão de finalizar carrinho após adicionar um item
+  //Fazer botão de editar funcionar
+  //fixar o valor Total no final da section
   function addProduto() {
     if(produtos.length == 10)
       return alert('Limitado a 10 unidades');
@@ -57,7 +61,7 @@ export default function Tarefas(props) {
     return content;
   };
 
-  //Só pega a change quando eu deleto -- CORRIGIR
+  //Só pega a change quando eu deleto, deveria pegar quando addProduto Também
   useEffect(() => {
     atualizaValorTotal()
   }, [produtos])

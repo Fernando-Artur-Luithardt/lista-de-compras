@@ -1,4 +1,4 @@
-import CadastroProduto from "./CadastroProduto"
+import CadastroProduto from "./components/CadastroProduto"
 
 export default function App() {
   return <div>
