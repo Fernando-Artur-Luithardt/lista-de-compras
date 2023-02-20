@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useEffect } from "react"
 
 export default function Tarefas(props) {
   
@@ -9,6 +10,8 @@ export default function Tarefas(props) {
   let [valorTotal, setValorTotal] = useState(0)
 
   function addProduto() {
+    if(produtos.length == 10)
+      return alert('Limitado a 10 unidades');
     setLastId(lastId + 1);
     produtos.push({
       nome: nome,
@@ -28,6 +31,17 @@ export default function Tarefas(props) {
     return sum;
   }
 
+  function deleteButton(e) {
+    let id = e.target.value
+    if(id == '' || id == null)
+      return;
+
+    let filtered = produtos.filter(function(value, index, arr){ 
+        return value.id != id;
+    });
+    setProdutos(filtered)
+  }
+
   const renderTabel = () => {
     const content = [];
     produtos.map(item => {
@@ -35,20 +49,26 @@ export default function Tarefas(props) {
         <tr key={item.id}>
           <td>{item.nome}</td>
           <td>{item.valor}</td>
-          <td>Delete btn</td>
-          <td>Edit btn</td>
+          <td><button value={item.id} onClick={deleteButton}>Delete btn</button></td>
+          <td><button>Edit btn</button></td>
         </tr>
       );
     });
     return content;
   };
 
+  //Só pega a change quando eu deleto -- CORRIGIR
+  useEffect(() => {
+    atualizaValorTotal()
+  }, [produtos])
+
   return <section>
-    <h1>Lista de compras</h1>
+    <h1>Adicionar produtos</h1>
     <input onChange={e => setNome(e.target.value)} type="nomeProduto"/>
     <input onChange={e => setValor(e.target.value)} type="number" id="valorProduto"/>
     <button onClick={addProduto}>add</button>
-    <table className="containerCompras">
+    <h2>Carrinho de compras</h2>
+    <table className="comprasContainer">
       <thead key="thead">
         <tr>
             <td>Nome</td>
@@ -61,5 +81,8 @@ export default function Tarefas(props) {
         {renderTabel()}
       </tbody>
     </table>
+    <div className="comprasFooter">
+      <h2>Valor total: {valorTotal}</h2>
+    </div>
   </section>
 }
